@@ -1,0 +1,25 @@
+﻿@model Stockzilla.Models.Settings
+@{
+    Layout = "_Layout_Signed_In";
+    ViewBag.Title = "Settings - Stockzilla";
+    ViewBag.Header = "Settings";
+}
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+<div class="col-md-6 col-md-offset-3">
+    <form method="post" novalidate>
+        @Html.HiddenFor(model => model.SiteId)
+        <div class="form-group">
+            @Html.LabelFor(model => model.GRNNo, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.GRNNo, new { @class = "form-control", @readonly = "readonly" })
+        </div>
+        <div class="form-group">
+            <span><input class="btn btn-success" type="submit" value="Save" />&nbsp;</span>
+            <span><input class="btn btn-danger" type="reset" value="Cancel" onclick="location.href='@Url.Action("List", "Products")'" /></span>
+        </div>
+    </form>
+</div>

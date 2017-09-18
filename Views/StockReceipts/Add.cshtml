@@ -1,0 +1,91 @@
+﻿@model Stockzilla.Models.StockReceipt
+@{
+    Layout = "_Layout_Signed_In";
+    ViewBag.Title = "Add To Stock - Stockzilla";
+    ViewBag.Header = "Add To Stock";
+}
+
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+
+
+    function CallChangefunc(val) {
+ $.ajax({
+   url: '@Url.Action("UpdatePreferredLocation", "StockReceipts")',
+   type: 'GET',
+   dataType: 'json',
+   cache: false,
+    data: { 'id': val },
+        success: function (results) {
+            $('#LocationId').val(results);
+   },
+
+   });
+    }
+
+    </script>
+}
+
+
+<div class="col-md-6 col-md-offset-3">
+
+    <form method="post" novalidate>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductId, new { @class = "control-label" })
+            <div class="input-group">
+                @Html.DropDownList("ProductId", null, "Choose Product", new { @class = "form-control", @onchange = "CallChangefunc(this.value)" })
+                <span class="input-group-btn">
+                    <button class="btn btn-toolbar" type="button" onclick="location.href='@Url.Action("Add", "Products")'"><i class="fa fa-plus-circle"></i></button>
+                </span>
+            </div>
+            @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.LocationId, new { @class = "control-label" })
+            <div class="input-group">
+                @Html.DropDownList("LocationId", null, "Choose Location", new { @class = "form-control" })
+                <span class="input-group-btn">
+                    <button class="btn btn-toolbar" type="button" onclick="location.href='@Url.Action("Add", "Locations")'"><i class="fa fa-plus-circle"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SerialNo, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.SerialNo, new { @class = "form-control", @placeholder = "Serial No." })
+            @Html.ValidationMessageFor(model => model.SerialNo, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.BatchNo, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.BatchNo, new { @class = "form-control", @placeholder = "Batch No." })
+            @Html.ValidationMessageFor(model => model.BatchNo, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Qty, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.Qty, new { @class = "form-control", @placeholder = "Qty", id = "quantity" })
+            @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CostPerUOM, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.CostPerUOM, new { @class = "form-control", @placeholder = "Cost Per UOM", id = "price" })
+            @Html.ValidationMessageFor(model => model.CostPerUOM, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.TotalCost, new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.TotalCost, new { @class = "form-control", @placeholder = "Total Cost", @readonly = "readonly", id = "total" })
+            @Html.ValidationMessageFor(model => model.TotalCost, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Notes, new { @class = "control-label" })
+            @Html.TextAreaFor(model => model.Notes, new { @class = "form-control", @placeholder = "Notes", @rows = "3" })
+            @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            <span><input class="btn btn-success" type="submit" value="Save" />&nbsp;</span>
+            <span><input class="btn btn-danger" type="reset" value="Cancel" onclick="location.href='@Url.Action("List", "StockReceipts")'" /></span>
+        </div>
+    </form>
+
+</div>
